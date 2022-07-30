@@ -1,19 +1,23 @@
-import { Provider } from 'react-redux';
+import { ReactNode } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import store from '../store/configureStore';
+import { AuthProvider } from '../contexts/Auth/Auth';
+import { HomeView } from './HomeView';
 import { LoginView } from './LoginView';
 import { NotFoundView } from './NotFoundView';
 
+function wrapProviders(children: ReactNode) {
+  return <AuthProvider>{children}</AuthProvider>;
+}
+
 export const RootView = () => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LoginView />} />
-          <Route path="*" element={<NotFoundView />} />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={wrapProviders(<LoginView />)} />
+        <Route path="/home" element={wrapProviders(<HomeView />)} />
+        <Route path="*" element={<NotFoundView />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
