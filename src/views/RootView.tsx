@@ -12,7 +12,7 @@ function wrapProviders(children: ReactNode) {
 
 export const RootView = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.BASE_PATH || '/'}>
       <Routes>
         <Route path="/" element={wrapProviders(<LoginView />)} />
         <Route path="/home" element={wrapProviders(<HomeView />)} />
