@@ -6,8 +6,12 @@ import { useAuth } from '../contexts/Auth/Auth';
 import type { User } from '../contexts/Auth/authReducer';
 import type { Action } from '../types/Action';
 
-const initialState: User = {
-  branchId: -1,
+// Make form's branchId a string, so we won't have any problems with the event target values
+// We'll just convert it to a number once we're adding it to the users list
+type FormUser = Omit<User, 'branchId'> & { branchId: string };
+
+const initialState: FormUser = {
+  branchId: '',
   lastName: '',
   middleName: '',
   userName: '',
@@ -32,20 +36,14 @@ export const NewUserForm = () => {
 
   function onClickAdd(): void {
     const { canAdd, ...state } = formState;
-    authDispatch({ type: 'ADD', payload: state });
+    const authState = { ...state, branchId: parseInt(state.branchId) };
+    authDispatch({ type: 'ADD', payload: authState });
   }
 
   return (
     <div className="p-4 bg-gray-400 w-full md:w-96">
       <div className="flex flex-col">
-        <TextInput
-          type="number"
-          placeholder="Branch ID"
-          onChange={(e) =>
-            formDispatch({ type: 'SET', payload: { key: 'branchId', value: parseInt(e.target.value) || -1 } })
-          }
-          value={formState.branchId === -1 ? '' : formState.branchId}
-        />
+        <TextInput type="number" placeholder="Branch ID" onChange={setValue('branchId')} value={formState.branchId} />
         <TextInput placeholder="Username" onChange={setValue('userName')} value={formState.userName} />
         <TextInput placeholder="First Name" onChange={setValue('firstName')} value={formState.firstName} />
         <TextInput placeholder="Middle Name" onChange={setValue('middleName')} value={formState.middleName} />
@@ -65,18 +63,25 @@ export const NewUserForm = () => {
   );
 };
 
-type NewUserFormReducerState<U extends User> = U & { canAdd: boolean };
-type NewUserFormReducerActions<U extends User> = Action<'SET', { key: keyof U; value: U[keyof U] }> | Action<'RESET'>;
+type NewUserFormReducerState<U extends FormUser> = U & { canAdd: boolean };
+type NewUserFormReducerActions<U extends FormUser> =
+  | Action<'SET', { key: keyof U; value: U[keyof U] }>
+  | Action<'RESET'>;
 
-function validate<U extends User>(state: NewUserFormReducerState<U>): boolean {
+function validate<U extends FormUser>(state: NewUserFormReducerState<U>): boolean {
   const { branchId, firstName, lastName, middleName, userName, position, password } = state;
-  if (!branchId || Number.isNaN(branchId)) return false;
   return (
-    firstName !== '' && lastName !== '' && middleName !== '' && userName !== '' && position !== '' && password !== ''
+    branchId !== '' &&
+    firstName !== '' &&
+    lastName !== '' &&
+    middleName !== '' &&
+    userName !== '' &&
+    position !== '' &&
+    password !== ''
   );
 }
 
-function newUserFormReducer<U extends User>(
+function newUserFormReducer<U extends FormUser>(
   state: NewUserFormReducerState<U>,
   action: NewUserFormReducerActions<U>,
 ): NewUserFormReducerState<U> {

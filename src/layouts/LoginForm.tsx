@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '../components/Button';
 import { ErrorMessage } from '../components/ErrorMessage';
@@ -9,12 +9,8 @@ export const LoginForm = () => {
   const [branchId, setBranchId] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const canLogin = useMemo(() => {
-    // ensure branch id is numeric at least
-    if (!branchId || Number.isNaN(branchId)) return false;
-    return !(!userName || !password);
-  }, [branchId, userName, password]);
   const { authDispatch, authState } = useAuth();
+  const canLogin = branchId !== '' && userName !== '' && password !== '';
 
   function onClickLogin(): void {
     if (!canLogin) return;
