@@ -28,7 +28,7 @@ export const LoginForm = () => {
       <div className="flex flex-col">
         <TextInput
           type="number"
-          placeholder="Branch id"
+          placeholder="Branch ID"
           onChange={(e) => setBranchId(e.target.value)}
           value={branchId}
         />
@@ -42,7 +42,9 @@ export const LoginForm = () => {
         <Button disabled={!canLogin} isPrimary onClick={onClickLogin}>
           LOGIN
         </Button>
-        {authState.errorMessage && <ErrorMessage>{authState.errorMessage}</ErrorMessage>}
+        {authState.errorMessage && (
+          <ErrorMessage data-testid="login-error-message">{authState.errorMessage}</ErrorMessage>
+        )}
       </div>
     </section>
   );
