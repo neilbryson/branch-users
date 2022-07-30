@@ -1,0 +1,73 @@
+{
+  "name": "react-ts-swc-starter",
+  "version": "1.0.0",
+  "author": "Neil Bryson Cargamento <neilbrysonmc@gmail.com>",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "@reduxjs/toolkit": "^1.8.3",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "~6.3.0",
+    "redux-saga": "^1.1.3"
+  },
+  "devDependencies": {
+    "@neilbryson/eslint-config": "^8.2.1",
+    "@swc/cli": "~0.1.55",
+    "@swc/core": "~1.2.207",
+    "@swc/jest": "~0.2.21",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.2.1",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/react-redux": "^7.1.24",
+    "autoprefixer": "^10.4.2",
+    "cross-env": "7.0.3",
+    "css-loader": "6.7.1",
+    "cssnano": "^5.1.1",
+    "dotenv": "16.0.0",
+    "eslint": "^8.10.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.1",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.2",
+    "lint-staged": "^12.3.5",
+    "postcss": "8.4.8",
+    "postcss-loader": "6.2.1",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "style-loader": "3.3.1",
+    "swc-loader": "~0.2.3",
+    "tailwindcss": "~3.0.23",
+    "typescript": "~4.7.4",
+    "webpack": "5.70.0",
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.7.4"
+  },
+  "scripts": {
+    "build": "rimraf ./dist && cross-env NODE_ENV=production webpack --mode=production",
+    "prepare": "husky install",
+    "start": "cross-env NODE_ENV=development webpack serve",
+    "test": "jest"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.ts?(x)",
+      "!**/node_modules/**",
+      "!<rootDir>/src/index.tsx"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testEnvironment": "jest-environment-jsdom",
+    "transform": {
+      "^.+\\.(t|j)sx?$": ["@swc/jest"]
+    }
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

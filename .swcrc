@@ -1,0 +1,15 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "target": "es2016",
+    "transform": {
+      "react": {
+        "runtime": "automatic"
+      }
+    }
+  },
+  "minify": true
+}
