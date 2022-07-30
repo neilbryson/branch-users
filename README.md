@@ -1,6 +1,6 @@
-# react-ts-swc-starter
+# branch-users
 
-Starter code for React / TypeScript projects ; uses swc as transformer
+Live page on : https://github.neilbryson.dev/branch-users/
 
 ## Installation
 
@@ -22,6 +22,10 @@ npm start
 ```bash
 npm run build
 ```
+## Login feature test
+
+[LoginForm.tsx](src/layouts/__tests__/LoginForm.tsx)
+
 
 ## Environment configuration
 
