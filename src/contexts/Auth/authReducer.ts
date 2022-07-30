@@ -1,4 +1,4 @@
-import { Action } from '../../types/Redux';
+import type { Action } from '../../types/Redux';
 import { users } from '../../utilities/mockData/users_data';
 
 export const LOGIN_STATE = ['initial', 'invalid', 'pending', 'logged-in'] as const;
@@ -42,7 +42,11 @@ export const initialState: AuthReducerState = {
   userNames: [...initialUsers[0]],
 };
 
-export type AuthReducerActions = Action<'LOGIN', LoginInfo> | Action<'LOGOUT'>;
+export type AuthReducerActions =
+  | Action<'LOGIN', LoginInfo>
+  | Action<'LOGOUT'>
+  | Action<'ADD', User>
+  | Action<'REMOVE', string>;
 
 function validate(
   loginInfo: LoginInfo,
@@ -63,6 +67,28 @@ function validate(
 
 export function authReducer(state: AuthReducerState, action: AuthReducerActions): AuthReducerState {
   switch (action.type) {
+    case 'ADD': {
+      const newUserName = action.payload.userName;
+      if (state.userNames.includes(newUserName)) return state;
+      return {
+        ...state,
+        userNames: [...state.userNames, newUserName],
+        userDetails: { ...state.userDetails, [newUserName]: action.payload },
+      };
+    }
+    case 'REMOVE': {
+      // Prevent logged-in user from removing themselves
+      if (action.payload === state.currentUser) return state;
+      const nextUserNames = state.userNames.filter((userName) => userName !== action.payload);
+      return {
+        ...state,
+        userNames: nextUserNames,
+        userDetails: nextUserNames.reduce<Record<string, User>>((prev, curr) => {
+          prev[curr] = state.userDetails[curr];
+          return prev;
+        }, {}),
+      };
+    }
     case 'LOGIN': {
       const [shouldLogin, nextState, errorMessage] = validate(action.payload, state.userNames, state.userDetails);
       return { ...state, state: nextState, errorMessage, currentUser: shouldLogin ? action.payload.userName : null };
