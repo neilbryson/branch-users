@@ -1,4 +1,4 @@
-import type { Action } from '../../types/Redux';
+import type { Action } from '../../types/Action';
 import { users } from '../../utilities/mockData/users_data';
 
 export const LOGIN_STATE = ['initial', 'invalid', 'pending', 'logged-in'] as const;

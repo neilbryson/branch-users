@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import { TextInput } from '../components/TextInput';
 import { useAuth } from '../contexts/Auth/Auth';
 import type { User } from '../contexts/Auth/authReducer';
-import type { Action } from '../types/Redux';
+import type { Action } from '../types/Action';
 
 const initialState: User = {
   branchId: -1,
