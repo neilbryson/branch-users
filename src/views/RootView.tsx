@@ -2,15 +2,15 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import store from '../store/configureStore';
+import { LoginView } from './LoginView';
 import { NotFoundView } from './NotFoundView';
-import { SampleView } from './SampleView';
 
 export const RootView = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SampleView />} />
+          <Route path="/" element={<LoginView />} />
           <Route path="*" element={<NotFoundView />} />
         </Routes>
       </BrowserRouter>
