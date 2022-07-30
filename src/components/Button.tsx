@@ -7,7 +7,9 @@ export type ButtonProps = {
 export const Button = ({ isPrimary = true, ...props }: ButtonProps) => {
   return (
     <button
-      className={`p-2 border rounded ${isPrimary ? 'bg-blue-400 hover:bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'}`}
+      className={`p-2 border rounded disabled:bg-gray-100 disabled:text-gray-500 ${
+        isPrimary ? 'bg-blue-400 hover:bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'
+      }`}
       {...props}
     />
   );
